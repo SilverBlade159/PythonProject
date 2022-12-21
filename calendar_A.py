@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 from datetime import datetime
 import calendar
 import locale
 import csv
+=======
+from time import gmtime, strftime
+from datetime import datetime
+import calendar
+import locale
+>>>>>>> ada7bd1625f1f4f3ec84908502d9df38df11ada5
 
 
 # Προσθέτει τις ημέρες του προηγούμενο μήνα
@@ -25,6 +32,7 @@ def next_month(year, month):
 
 
 # Ελέγχει αν η μέρα είναι του τωρινού μήνα
+<<<<<<< HEAD
 def check_day(p, k, year, month):
     if current[p][k] < 10:
         day = "0" + str(current[p][k])
@@ -35,6 +43,11 @@ def check_day(p, k, year, month):
         month = "0" + str(month)
     if current[p][k] == current_final[p][k]:
         string = "[" + search_for_event(str(str(year) + "-" + str(month) + "-" + day)) + str(current[p][k]) + "]"
+=======
+def check_day(p, k):
+    if current[p][k] == current_final[p][k]:
+        string = "[" + note + str(current_final[p][k]) + "]"
+>>>>>>> ada7bd1625f1f4f3ec84908502d9df38df11ada5
         string = string.rjust(5)
         return string
     else:
@@ -54,6 +67,7 @@ def create_calendar(year, month):
             current_final[-1][i] = next[0][i]
 
 
+<<<<<<< HEAD
 def search_for_event(search_for_day):
     for i in range(len(csv_file)):
         if csv_file[i][0] == search_for_day:
@@ -62,6 +76,8 @@ def search_for_event(search_for_day):
         return ""
 
 
+=======
+>>>>>>> ada7bd1625f1f4f3ec84908502d9df38df11ada5
 # Τυπώνει το ημερολόγιο
 def print_calendar(month, year):
     print("-" * 60)
@@ -77,12 +93,17 @@ def print_calendar(month, year):
     for k in range(len(current_final)):
         result = ""
         for i in range(len(current_final[k])):
+<<<<<<< HEAD
             result += " |" + str(check_day(k, i, year, month))
+=======
+            result += " |" + str(check_day(k, i))
+>>>>>>> ada7bd1625f1f4f3ec84908502d9df38df11ada5
         print(result[1:], end="")
         print("")
     print("-" * 60)
 
 
+<<<<<<< HEAD
 def search_events():
     year = validate_year()
     month = validate_month()
@@ -187,6 +208,8 @@ for line in f:
     csv_file.append(line)
 f.close()
 
+=======
+>>>>>>> ada7bd1625f1f4f3ec84908502d9df38df11ada5
 # Λίστες με τις ονομασίες των μηνών και ημερών
 Months = ["ΙΑΝ", "ΦΕΒ", "ΜΑΡ", "ΑΠΡ", "ΜΑΙ", "ΙΟΥΝ", "ΙΟΥΛ", "ΑΥΓ", "ΣΕΠ", "ΟΚΤ", "ΝΟΕ", "ΔΕΚ"]
 Days = ["ΔΕΥ", "ΤΡΙ", "ΤΕΤ", "ΠΕΜ", "ΠΑΡ", "ΣΑΒ", "ΚΥΡ"]
@@ -198,6 +221,7 @@ today = datetime.now()
 loc = locale.getlocale()                # Παίρνουμε τις τρέχουσες ρυθμίσεις γλώσσας
 locale.setlocale(locale.LC_ALL, loc)    # Επιβάλλουμε να χρησιμοποιηθούν οι ρυθμίσεις συστήματος
 
+<<<<<<< HEAD
 # Μεταβλητές
 year = today.year
 month = today.month
@@ -218,6 +242,30 @@ while True:
 
     create_calendar(year, month)
     print_calendar(month, year)
+=======
+# Μεταβλητές για να δούμε αν δουλεύει - Αργότερα θα βγουν και θα τραβάει δεδομένα από αλλού
+year = 1976         # today.year
+month = 8           # today.month
+not_a_note = " "
+note = "*"
+
+# Δημιουργεί το ημερολόγιο τωρινού μήνα
+c = calendar.Calendar()
+current_final = c.monthdayscalendar(year, month)
+current = c.monthdayscalendar(year, month)
+
+# Δημιουργεί τον προηγούμενο μήνα
+previous = previous_month(year, month)
+
+# Δημιουργεί τον επόμενο μήνα
+next = next_month(year, month)
+
+create_calendar(year, month)
+print_calendar(month, year)
+
+# Loop που επαναλαμβάνετε μέχρι να πατηθεί "q"
+while True:
+>>>>>>> ada7bd1625f1f4f3ec84908502d9df38df11ada5
     print("Πατήστε ENTER για προβολή του επόμενου μήνα, 'q' για έξοδο ή κάποια από τις παρακάτω επιλογές:")
     print("\t'-' για πλοήγηση στον προηγούμενο μήνα.")
     print("\t'+' για διαχείρηση των γεγονότων του ημερολογίου.")
@@ -228,6 +276,7 @@ while True:
         choice = input()
 
     # ΑΡΧΙΚΟ ΜΕΝΟΥ
+<<<<<<< HEAD
     # Αν ο χρήστης πάτησε enter για να προχωρήσει το ημερολόγιο ένα μήνα εμπρός
     if choice == "":
         month += 1
@@ -255,6 +304,17 @@ while True:
         next = next_month(year, month)
 
         create_calendar(year, month)
+=======
+    # Αν ο χρήστης πάτησε enter
+    if choice == "":
+        month += 1
+        print_calendar(month, year)
+
+    # ΑΡΧΙΚΟ ΜΕΝΟΥ
+    # Αν ο χρήστης πάτησε "-"
+    elif choice == "-":
+        month -= 1
+>>>>>>> ada7bd1625f1f4f3ec84908502d9df38df11ada5
         print_calendar(month, year)
 
     # ΑΡΧΙΚΟ ΜΕΝΟΥ
@@ -270,6 +330,7 @@ while True:
             print("ERROR - Πατήστε μόνο ενδεδειγμένους χαρακτήρες(1, 2, 3, 0)")
             choice = input()
         if choice == "1":
+<<<<<<< HEAD
             # Εισαγωγή ημερομηνίας
             date = validate_date(input("Εισάγετε ημερομηνία γεγονότος:"))
 
@@ -359,12 +420,20 @@ while True:
                 csv_file[change][3] = event_title
 
 
+=======
+            pass
+        elif choice == "2":
+            pass
+        elif choice == "3":
+            pass
+>>>>>>> ada7bd1625f1f4f3ec84908502d9df38df11ada5
         elif choice == "0":
             print_calendar(month, year)
 
     # ΑΡΧΙΚΟ ΜΕΝΟΥ
     # Αν ο χρήστης πάτησε "*"
     elif choice == "*":
+<<<<<<< HEAD
         while True:
             search_res = search_events()
             if len(search_res) == 0:
@@ -372,14 +441,20 @@ while True:
             else:
                 input("Πατήστε οποιοδήποτε χαρακτήρα για επιστροφή στο κυρίως μενού")
                 break
+=======
+        pass
+>>>>>>> ada7bd1625f1f4f3ec84908502d9df38df11ada5
 
     # ΑΡΧΙΚΟ ΜΕΝΟΥ
     # Αν ο χρήστης πάτησε "q"
     elif choice == "q":
+<<<<<<< HEAD
         # Στην έξοδο μεταφέρει τη λίστα στο αρχείο csv
         with open("events.csv", "w") as f:
             write = csv.writer(f)
             write.writerows(csv_file)
+=======
+>>>>>>> ada7bd1625f1f4f3ec84908502d9df38df11ada5
         print("BYE BYE!")
         break
 
