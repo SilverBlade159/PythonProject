@@ -525,8 +525,9 @@ class Calendar:
 
         line = ""
         for i in range(7):
-            line += "|\t" + self.days[i] + "\t "
-        print(line[1:])
+            line += ("|  " + self.days[i]).center(8)
+        print(line[1:], end="")
+        print("")
 
         for i, week in enumerate(final_month_calendar):
             line = ""
@@ -539,7 +540,7 @@ class Calendar:
                     line += f"| [{spacing_before_day}{str(day)}] "
                 else:
                     line += f"|  {spacing_before_day}{str(day)}  "
-            print("  " + line[1:])
+            print(line)
         print("-" * 60)
 
     def print_menu(self):
