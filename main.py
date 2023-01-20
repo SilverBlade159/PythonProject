@@ -227,7 +227,7 @@ class Validations:
 
                 return num
             except ValueError:
-                Messages.warning('Η διάρκεια γεγονότος πρέπει να είναι μη αρνητικός ακέραιος αριθμός.')
+                Messages.warning('Εισάγετε μη αρνητικό ακέραιο αριθμό.')
                 num = input(input_text)
 
     @staticmethod
@@ -354,9 +354,9 @@ class Bonus:
 
     @staticmethod
     def notification(events):
-        key = datetime.now().strftime('%Y-%m')
-        current_day = int(datetime.now().strftime('%d'))
-        current_time = Time(datetime.now().strftime('%H:%M'))
+        key = '{dt.year}-{dt.month}'.format(dt=datetime.now())
+        current_day = int('{dt.day}'.format(dt=datetime.now()))
+        current_time = Time('{dt.hour}:{dt.minute}'.format(dt=datetime.now()))
 
         # Κανένα γεγονός δεν έχει καταχωρηθεί αυτό το μήνα
         if events.get(key) is None:
@@ -448,19 +448,20 @@ class Calendar:
 
         print('=== Αναζήτηση γεγονότων ====')
 
-        year = input("Εισάγετε έτος: ")
-        month = input("Εισάγετε μήνα: ")
+        year = Validations.val_int(input("Εισάγετε έτος: "), "Εισάγετε έτος: ")
+        month = Validations.val_int(input("Εισάγετε μήνα: "), "Εισάγετε μήνα: ")
+        while month > 12 or month == 0:
+            Messages.warning('Δώστε τιμές από 1-12 για τον μήνα.')
+            month = Validations.val_int(input("Εισάγετε μήνα: "), "Εισάγετε μήνα: ")
 
         # Διόρθωση για την περίπτωση που δοθεί το έτος για παράδειγμα 2022 και ο μήνας 04, ώστε να χρησιμοποιηθεί το
         # κλειδί 2022-4 και όχι το κλειδί 2022-04
-        if month[0] == '0':
-            month = month[1]
+        if len(str(month)) > 1 and str(month)[0] == '0':
+            month = str(month)[1]
 
         event_list = self.events.get(f'{year}-{month}')
         if event_list is None:
             print('Δεν υπάρχει κάποιο γεγονός καταχωρημένο σε αυτήν την ημερομηνία.\n')
-
-            input('Πατήστε enter για επιστροφή στο κυρίως μενού: ')
             return
 
         for i, event in enumerate(event_list):
@@ -577,6 +578,7 @@ class Calendar:
     # region Λειτουργίες Πρώτου Μενού
     def show_events(self):
         self.search_event()
+        input('Πατήστε enter για επιστροφή στο κυρίως μενού: ')
     # endregion
 
     # region Δεύτερο Μενού
@@ -617,7 +619,7 @@ class Calendar:
             event = Event(date, start_time, int(duration), title)
             run = not Bonus.conflict(event, self.events)
 
-        key = str(event.date)[:-2] if str(event.date)[-2] == '-' else str(event.date)[:-3]
+        key = event.date.key
 
         if self.events.get(key) is None:
             self.events[key] = [event]
